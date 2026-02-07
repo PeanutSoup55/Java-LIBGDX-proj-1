@@ -30,4 +30,9 @@ public class MainMenuScreen implements Screen {
             dispose();
         }
     }
+
+    @Override
+    public void resize(int width, int height) {
+        game.viewport.update(width, height, true);
+    }
 }
