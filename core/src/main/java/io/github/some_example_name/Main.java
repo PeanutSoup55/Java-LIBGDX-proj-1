@@ -10,11 +10,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import javax.sound.midi.Receiver;
 import javax.sound.midi.Soundbank;
 import java.util.Vector;
 
@@ -30,6 +32,9 @@ public class Main extends ApplicationAdapter {
     Sprite bucketSprite;
     Vector2 touchPos;
     Array<Sprite> dropSprites;
+    float dropTimer;
+    Rectangle bucketRectangle;
+    Rectangle dropRectangle;
 
 
     @Override
@@ -47,7 +52,14 @@ public class Main extends ApplicationAdapter {
         touchPos = new Vector2();
 
         dropSprites = new Array<>();
-        createDroplet();
+
+        bucketRectangle = new Rectangle();
+        dropRectangle = new Rectangle();
+
+        music.setLooping(true);
+        music.setVolume(.5f);
+        music.play();
+
     }
 
     @Override
@@ -83,7 +95,7 @@ public class Main extends ApplicationAdapter {
         float worldHeight = viewport.getWorldHeight();
         Sprite dropSprite = new Sprite(dropTexture);
         dropSprite.setSize(dropWidth, dropHeight);
-        dropSprite.setX(0);
+        dropSprite.setX(MathUtils.random(0f, worldWidth - dropWidth));
         dropSprite.setY(worldHeight);
         dropSprites.add(dropSprite);
     }
@@ -93,6 +105,25 @@ public class Main extends ApplicationAdapter {
         float bucketWidth = bucketSprite.getWidth();
         float bucketHeight = bucketSprite.getHeight();
         bucketSprite.setX(MathUtils.clamp(bucketSprite.getX(), 0, worldWidth - bucketWidth));
+        float delta = Gdx.graphics.getDeltaTime();
+        bucketRectangle.set(bucketSprite.getX(), bucketSprite.getY(), bucketWidth, bucketHeight);
+        for (int i = dropSprites.size - 1; i >= 0; i--){
+            Sprite dropSprite = dropSprites.get(i);
+            float dropWidth = dropSprite.getWidth();
+            float dropHeight = dropSprite.getHeight();
+            dropSprite.translateY(-2f * delta);
+            dropRectangle.set(dropSprite.getX(), dropSprite.getY(), dropWidth, dropHeight);
+            if (dropSprite.getY() < -dropHeight) dropSprites.removeIndex(i);
+            else if (bucketRectangle.overlaps(dropRectangle)) {
+                dropSprites.removeIndex(i);
+                dropSound.play();
+            }
+        }
+        dropTimer += delta;
+        if (dropTimer > 1f){
+            dropTimer = 0;
+            createDroplet();
+        }
     }
     private void input(){
         float speed = .25f;
