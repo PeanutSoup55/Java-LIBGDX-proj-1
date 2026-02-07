@@ -9,7 +9,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -27,6 +29,7 @@ public class Main extends ApplicationAdapter {
     FitViewport viewport;
     Sprite bucketSprite;
     Vector2 touchPos;
+    Array<Sprite> dropSprites;
 
 
     @Override
@@ -42,6 +45,9 @@ public class Main extends ApplicationAdapter {
         bucketSprite = new Sprite(bucketTexture);
         bucketSprite.setSize(1, 1);
         touchPos = new Vector2();
+
+        dropSprites = new Array<>();
+        createDroplet();
     }
 
     @Override
@@ -65,12 +71,28 @@ public class Main extends ApplicationAdapter {
         float worldHeight = viewport.getWorldHeight();
         spriteBatch.draw(backgroundTexture, 0, 0, worldWidth, worldHeight);
         bucketSprite.draw(spriteBatch);
+        for (Sprite dropSprite : dropSprites){
+            dropSprite.draw(spriteBatch);
+        }
         spriteBatch.end();
+    }
+    private void createDroplet(){
+        float dropWidth = 1;
+        float dropHeight = 1;
+        float worldWidth = viewport.getWorldWidth();
+        float worldHeight = viewport.getWorldHeight();
+        Sprite dropSprite = new Sprite(dropTexture);
+        dropSprite.setSize(dropWidth, dropHeight);
+        dropSprite.setX(0);
+        dropSprite.setY(worldHeight);
+        dropSprites.add(dropSprite);
     }
     private void logic(){
         float worldWidth = viewport.getWorldWidth();
         float worldHeight = viewport.getWorldHeight();
-        float bucketWidth = viewport.getWidth();
+        float bucketWidth = bucketSprite.getWidth();
+        float bucketHeight = bucketSprite.getHeight();
+        bucketSprite.setX(MathUtils.clamp(bucketSprite.getX(), 0, worldWidth - bucketWidth));
     }
     private void input(){
         float speed = .25f;
