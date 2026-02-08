@@ -1,33 +1,40 @@
-# dev-proj-1
+# Drop
 
-A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
+A simple rain-catching game built with LibGDX.
 
-This project was generated with a template including simple application launchers and an `ApplicationAdapter` extension that draws libGDX logo.
+## About
 
-## Platforms
+Drop is a 2D game where you control a bucket to catch falling raindrops. Built following the official LibGDX tutorial to learn game development basics.
 
-- `core`: Main module with the application logic shared by all platforms.
-- `lwjgl3`: Primary desktop platform using LWJGL3; was called 'desktop' in older docs.
+## Features
 
-## Gradle
+- Touch/mouse controls to move the bucket
+- Keyboard arrow key support
+- Score tracking
+- Background music and sound effects
+- Main menu screen
 
-This project uses [Gradle](https://gradle.org/) to manage dependencies.
-The Gradle wrapper was included, so you can run Gradle tasks using `gradlew.bat` or `./gradlew` commands.
-Useful Gradle tasks and flags:
+## How to Play
 
-- `--continue`: when using this flag, errors will not stop the tasks from running.
-- `--daemon`: thanks to this flag, Gradle daemon will be used to run chosen tasks.
-- `--offline`: when using this flag, cached dependency archives will be used.
-- `--refresh-dependencies`: this flag forces validation of all dependencies. Useful for snapshot versions.
-- `build`: builds sources and archives of every project.
-- `cleanEclipse`: removes Eclipse project data.
-- `cleanIdea`: removes IntelliJ project data.
-- `clean`: removes `build` folders, which store compiled classes and built archives.
-- `eclipse`: generates Eclipse project data.
-- `idea`: generates IntelliJ project data.
-- `lwjgl3:jar`: builds application's runnable jar, which can be found at `lwjgl3/build/libs`.
-- `lwjgl3:run`: starts the application.
-- `test`: runs unit tests (if any).
+- Move the bucket left and right using arrow keys or by touching/clicking
+- Catch as many raindrops as possible
+- Each caught drop increases your score
 
-Note that most tasks that are not specific to a single project can be run with `name:` prefix, where the `name` should be replaced with the ID of a specific project.
-For example, `core:clean` removes `build` folder only from the `core` project.
+## Built With
+
+- [LibGDX](https://libgdx.com/) - Game development framework
+
+## Running the Game
+
+1. Clone this repository
+2. Open in your IDE (IntelliJ IDEA or Eclipse recommended)
+3. Run the desktop launcher
+
+## Screenshot
+
+<img width="799" height="533" alt="Screenshot 2026-02-07 225017" src="https://github.com/user-attachments/assets/e40fd090-448c-4199-b1fc-a0aee7adec11" />
+
+
+## Credits
+
+Based on the [LibGDX Simple Game Tutorial](https://libgdx.com/wiki/start/a-simple-game)
